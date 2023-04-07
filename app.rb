@@ -7,10 +7,21 @@ require 'sqlite3'
 def init_db
 	@db = SQLite3::Database.new 'leprosorium.db'
 	@db.results_as_hash = true #эта настройка нужна, чтобы результаты возвращались в виде хэша, а не массива
+
 end
 
-before do #before выполняется каждый раз перед выполнением любого HTTP-запроса
+before do #before выполняется каждый раз перед выполнением любого HTTP-запроса, не исполняется при конфигурации configure
+	init_db #поэтому в configure надо написать тоже init_db
+end
+
+configure do #configure вызывается каждый раз когда мы изменяем код, сохраняем его и перезапускаем прложение
 	init_db
+	@db.execute 'CREATE TABLE IF NOT EXISTS Posts 
+	(
+    	id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    	created_date BLOB (256),
+    	content TEXT
+	);'
 end
 
 get '/' do
