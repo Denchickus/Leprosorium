@@ -9,13 +9,15 @@ def init_db
 	@db.results_as_hash = true #эта настройка нужна, чтобы результаты возвращались в виде хэша, а не массива
 
 end
-
+#before вызывается каждый раз при перезагрузке любой страницы
 before do #before выполняется каждый раз перед выполнением любого HTTP-запроса, не исполняется при конфигурации configure
 	init_db #поэтому в configure надо написать тоже init_db
 end
 
 configure do #configure вызывается каждый раз когда мы изменяем код, сохраняем его и перезапускаем прложение
+	#инициализация БД
 	init_db
+	# создаёт таблицу, если она не существует
 	@db.execute 'CREATE TABLE IF NOT EXISTS Posts 
 	(
     	id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
