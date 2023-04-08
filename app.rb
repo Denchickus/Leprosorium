@@ -58,8 +58,12 @@ end
 
 #вывод информации о посте
 # на место :post_id подставляется номер поста
+# получаем параметр из адресной строки
 get '/details/:post_id' do
 	post_id = params[:post_id]
 
-	erb "Displaying information for post with id #{post_id}"
+	results = @db.execute 'select * from Posts where id=?', [post_id]
+	@row = results[0]
+
+	erb :details
 end
