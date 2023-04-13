@@ -25,6 +25,16 @@ configure do #configure вызывается каждый раз когда мы
     	created_date BLOB (256),
     	content TEXT
 	);'
+	# сначала создал таблицу комментариев, а потом уже добавил в неё поле
+	# "post_id integer" и оно в существующую таблицу уже не добавится
+	# Чтобы это исправить есть механизм миграций
+	@db.execute 'CREATE TABLE IF NOT EXISTS Comments 
+	(
+    	id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    	created_date BLOB (256),
+    	content TEXT,
+    	post_id integer
+	);'
 end
 
 get '/' do
