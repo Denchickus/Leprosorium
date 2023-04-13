@@ -108,7 +108,9 @@ post '/details/:post_id' do
 		 	?
 		 );', [content, post_id]
 
-	erb "You typed comment #{content} for post #{post_id}"
+	# перенаправление на страницу поста
+
+	redirect to('/details/' + post_id)
 
 end
 
