@@ -18,6 +18,7 @@ configure do #configure вызывается каждый раз когда мы
 	#инициализация БД
 	init_db
 	# создаёт таблицу, если она не существует
+	# следующий код - миграция, нужен для синхронизации кода приложения со структурой БД
 	@db.execute 'CREATE TABLE IF NOT EXISTS Posts 
 	(
     	id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
